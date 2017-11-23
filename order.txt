@@ -1,0 +1,16 @@
+adafruit order list
+
+charlie led matrix
+https://www.adafruit.com/product/2974
+
+charlie controller
+https://www.adafruit.com/product/2946
+
+
+sound
+
+class d amplifier
+https://www.adafruit.com/product/3006
+
+speaker
+https://www.adafruit.com/product/3014
