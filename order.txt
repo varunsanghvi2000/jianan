@@ -2,15 +2,18 @@ adafruit order list
 
 charlie led matrix
 https://www.adafruit.com/product/2974
+ordered: 1 unit
 
 charlie controller
 https://www.adafruit.com/product/2946
-
+ordered: 1 unit
 
 sound
 
 class d amplifier
 https://www.adafruit.com/product/3006
+ordered: 1 unit
 
 speaker
-https://www.adafruit.com/product/3014
+https://www.adafruit.com/product/1314
+ordered: 1 unit
