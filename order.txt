@@ -17,3 +17,15 @@ ordered: 1 unit
 speaker
 https://www.adafruit.com/product/1314
 ordered: 1 unit
+
+DIP switch
+https://www.digikey.com/products/en?keywords=ct2088
+ordered: 4 units
+
+accelerometer
+https://www.adafruit.com/product/2019
+ordered: 1 unit
+
+Metal Gearmotor Bracket
+https://www.pololu.com/product/2676
+ordered: 1 unit
