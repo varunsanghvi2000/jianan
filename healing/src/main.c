@@ -21,8 +21,6 @@ int main()
     
     clear(DDRF,0);                 // set F0 pin as an input
 	clear(PORTF,0);
-    set(DDRD,0);                    // set D0 pin as an output
-    clear(PORTD,0);
     set(DDRD,1);                    // set D1 pin as an output
     clear(PORTD,1);
     
@@ -75,16 +73,10 @@ int main()
         
         if(i>200 && i<400)
         {
-            set(PORTD,1);           //Turn on the red LED
-            clear(PORTD,0);
+            set(PORTD,1);           //Turn on neopixel
+
         }
         
-        else if(i>1400 && i<1600)
-        {
-            set(PORTD,0);           //turn on the blue LED
-            clear(PORTD,1);
-            
-        }
         else
         {
             clear(PORTD,0);
