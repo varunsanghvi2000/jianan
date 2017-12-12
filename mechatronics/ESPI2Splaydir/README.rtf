@@ -1,0 +1,41 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1348\cocoasubrtf170
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\f0\fs24 \cf0 Detailed description of I2S experience.\
+\
+Using Adafruit I2s 3W amplifier (~$5) \expnd0\expndtw0\kerning0
+MAX98357A {\field{\*\fldinst{HYPERLINK "https://www.adafruit.com/product/3006"}}{\fldrslt \expnd0\expndtw0\kerning0
+https://www.adafruit.com/product/3006}}\kerning1\expnd0\expndtw0  and $4 speakers (4ohm 3W) from Adafruit with ESP8266 i2s.\
+\
+Example file uses web sockets DNS server to send I2S wav sounds  {\field{\*\fldinst{HYPERLINK "https://github.com/bbx10/SFX-I2S-web-trigger"}}{\fldrslt https://github.com/bbx10/SFX-I2S-web-trigger}}\
+\
+Only interested in wav part. Deleted web related portions.\
+\
+Examining related code:\
+source code for i2s calls: {\field{\*\fldinst{HYPERLINK "https://github.com/esp8266/Arduino/blob/master/cores/esp8266/core_esp8266_i2s.c"}}{\fldrslt https://github.com/esp8266/Arduino/blob/master/cores/esp8266/core_esp8266_i2s.c}}\
+\
+SPIFFS file system for loading WAV files {\field{\*\fldinst{HYPERLINK "https://github.com/esp8266/Arduino/blob/master/doc/filesystem.rst#uploading-files-to-file-system"}}{\fldrslt https://github.com/esp8266/Arduino/blob/master/doc/filesystem.rst#uploading-files-to-file-system}}\
+\
+Website to generate sinusoid pure tone WAV files {\field{\*\fldinst{HYPERLINK "http://www.audiocheck.net/audiofrequencysignalgenerator_sinetone.php"}}{\fldrslt http://www.audiocheck.net/audiofrequencysignalgenerator_sinetone.php}}\
+\
+Bug fixes:\
+o fixed random memory leak/fragmentation crashes\
+- Removed i2s_end() calls in wav_stopPlaying() and moved i2s_begin() from wav_startPlayingFile() to wav_setup()\
+\
+o fixed sound glitches\
+- in wav_loop() moved yield() call\
+      if ((I2S_WAV.buffer_index & 0x3F) == 0) yield();\
+to happen after filling DMA buffer e.g. I2S_WAV.buffer_index >= I2S_WAV.bufferlen\
+\
+o fixed DMA timing sensitivity (removing print statements)\
+- changed all i2s_full  variables to i2s_is_full()  calls.\
+- deleted i2s_full bool declaration.\
+\
+o cleaned code\
+- removed unnecessary Serial.println() statements\
+- removed unrelated header inclusions (only need <i2s.h> and \'93wavspiffs.h\'94\
+\
+}

@@ -11,17 +11,18 @@ volatile unsigned char pos;
 volatile char process_packet;
 
 int x =0;
-int x1 =0;
+int x1 =5;
 int y =0;
-int y1 =0;
+int y1 =5;
 int z =0;
 
 
 int freq, prev_val;
 unsigned int count, count2, prev, current;
-int motor1Number;
-int motor2Number;
-int servoNumber;
+int motor1Number=5;
+int motor2Number=5;
+int servoNumber=1;
+int prevnumber=1;
 
 
 ISR(SPI_STC_vect)
@@ -73,11 +74,15 @@ int main(void)
 	set(DDRB, 6);		//servo pin output
 	clear(DDRC, 7);		//"hit" button input pin
 	clear(DDRF, 4);		//"hit" button input pin
+	clear(DDRF, 5);
 	
 	clear(DDRF, 7);		//healing sensor pin input
 	clear(PORTF, 7);
 	
 	set(DDRD, 6);		//onboard LED pin
+	set(DDRF, 6);		//white
+	clear(PORTF,6);
+	//	clear(PORTD,6);
 	
 	//__Timer 4__Motor1
 		
@@ -259,16 +264,25 @@ else if (motor2Number == 5){
 
 //Servo Control
 
+if(servoNumber!=prevnumber)
+{
 switch(servoNumber){
 	case 1:
-		OCR1B = 1100	//servo UP position
+		OCR1B = 3900;	//servo UP position
+		m_usb_tx_string("weapon up ");
+		//moved=1;
+		prevnumber=servoNumber;
 		break;
 	case 2:
-		OCR1B = 3000;	//servo DOWN position
+		OCR1B = 2500;	//servo DOWN position
+		m_usb_tx_string("weapon down ");
+		//moved=1;
+		prevnumber=servoNumber;
 		break;
 		//servo
 		//min 1100 (~.55ms pulse), max 4900 (~2.45 ms pulse)
 	
+}
 }
 		
 //calculate frequency of healing LED
@@ -280,10 +294,10 @@ if(bit_is_clear(PINF, 7)){
 				
 		freq = 1/(2*.000016*(current - prev));	//calculate frequency using difference in counter value and 1/clock frequency
 				
-		m_usb_tx_string("frequency = ");	//print statements
+		/*m_usb_tx_string("frequency = ");	//print statements
 		m_usb_tx_uint(freq);
 		m_usb_tx_string("\n");
-				
+		*/		
 		TCNT3 = 0;		//reset counter value
 	}
 }
@@ -296,20 +310,33 @@ if(bit_is_set(PINF, 7)){
 }
 
 if(freq>200 && freq<400){
-	set(PORTD,6);	//turn on onboard LED
+	set(PORTF,6);	//turn on onboard LED
 }
 		
 else
 {
+	clear(PORTF,6);
+}
+
+
+if (bit_is_set(PINC,7)||bit_is_set(PINF,4)||bit_is_set(PINF,5))
+{
+	set(PORTD,6);	//turn on onboard LED
+}else
+{
 	clear(PORTD,6);
 }
+
+
 
 }
     return 0;   /* never reached */
 }
 
 
+
 void update_data() {
+	
 if(process_packet) {
 if(pos<7&&pos>5)	
 {
